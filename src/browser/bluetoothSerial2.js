@@ -58,7 +58,7 @@ module.exports = (function() {
     };
     return {
         connect : function(mac, success_cb, fail_cb) {
-            btlog("bluetoothSerial.connect: " + mac);
+            btlog("bluetoothSerial2.connect: " + mac);
             connected = true;
             if (success_cb) { success_cb(); }
         },
@@ -67,28 +67,28 @@ module.exports = (function() {
             process_cb = data_cb;
         },
         disconnect : function(success_cb, fail_cb) {
-            btlog("bluetoothSerial.disconnect");
+            btlog("bluetoothSerial2.disconnect");
             connected = false;
             window.clearInterval(interval);
             if (success_cb) { success_cb(); }
         },
         write : function(data, success_cb, fail_cb) {
-            btlog("bluetoothSerial.write: " + data);
+            btlog("bluetoothSerial2.write: " + data);
             buf.input += data;
             if(success_cb) { success_cb(); }
         },
         available : function(success_cb, fail_cb) {
-            btlog("bluetoothSerial.available");
+            btlog("bluetoothSerial2.available");
             success_cb(buf.output.length);
         },
         read : function(success_cb, fail_cb) {
-            btlog("bluetoothSerial.read: " + buf.output);
+            btlog("bluetoothSerial2.read: " + buf.output);
             var data = buf.output;
             buf.output = "";
             success_cb(data);
         },
         readUntil : function(delimiter, success_cb, fail_cb) {
-            btlog("bluetoothSerial.readUntil");
+            btlog("bluetoothSerial2.readUntil");
             var index = buf.output.indexOf(delimiter);
             if (index == -1) {
                 success_cb("");
@@ -99,26 +99,26 @@ module.exports = (function() {
             }
         },
         subscribe : function(delimiter, success_cb, fail_cb) {
-            btlog("bluetoothSerial.subscribe '"+delimiter+"'");
+            btlog("bluetoothSerial2.subscribe '"+delimiter+"'");
             subscribe_cb = success_cb;
             subscribe_delim = delimiter;
         },
         unsubscribe : function(success_cb, fail_cb) {
-            btlog("bluetoothSerial.unsubscribe");
+            btlog("bluetoothSerial2.unsubscribe");
             subscribe_delim = false;
             if(success_cb) { success_cb(); }
         },
         subscribeRawData : function(success_cb, fail_cb) {
-            btlog("bluetoothSerial.subscribeRawData");
+            btlog("bluetoothSerial2.subscribeRawData");
             raw_cb = success_cb;
         },
         unsubscribeRawData : function(success_cb, fail_cb) {
-            btlog("bluetoothSerial.unsubscribeRawData");
+            btlog("bluetoothSerial2.unsubscribeRawData");
             raw_cb = false;
             if(success_cb) { success_cb(); }
         },
         clear : function(success_cb, fail_cb) {
-            btlog("bluetoothSerial.clear");
+            btlog("bluetoothSerial2.clear");
             buf.output = "";
             if(success_cb) { success_cb(); }
         },
@@ -136,7 +136,7 @@ module.exports = (function() {
           }]
           success_cb(devices);        },
         isConnected : function(success_cb, fail_cb) {
-            btlog("bluetoothSerial.isConnected: " + connected);
+            btlog("bluetoothSerial2.isConnected: " + connected);
             if(connected) {
                 if(success_cb) { success_cb(); }
             } else {
@@ -144,7 +144,7 @@ module.exports = (function() {
             }
         },
         isEnabled : function(success_cb, fail_cb) {
-            btlog("bluetoothSerial.isEnabled: " + enabled);
+            btlog("bluetoothSerial2.isEnabled: " + enabled);
             if(enabled) {
                 if(success_cb) { success_cb(); }
             } else {
@@ -152,18 +152,18 @@ module.exports = (function() {
             }
         },
         readRSSI : function(success_cb, fail_cb) {
-            alert("bluetoothSerial.readRSSI is not implemented");
+            alert("bluetoothSerial2.readRSSI is not implemented");
         },
         showBluetoothSettings : function(success_cb, fail_cb) {
-            alert("bluetoothSerial.showBluetoothSettings is not implemented");
+            alert("bluetoothSerial2.showBluetoothSettings is not implemented");
         },
         enable : function(success_cb, fail_cb) {
-            btlog("bluetoothSerial.enable");
+            btlog("bluetoothSerial2.enable");
             enable = true;
             if(success_cb) { success_cb(); }
         },
         discoverUnpaired : function(success_cb, fail_cb) {
-            alert("bluetoothSerial.discoverUnpaired is not implemented");
+            alert("bluetoothSerial2.discoverUnpaired is not implemented");
         },
     }
 })();

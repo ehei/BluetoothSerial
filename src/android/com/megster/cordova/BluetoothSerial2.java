@@ -28,7 +28,7 @@ import java.util.Set;
 /**
  * PhoneGap Plugin for Serial Communication over Bluetooth
  */
-public class BluetoothSerial extends CordovaPlugin {
+public class BluetoothSerial2 extends CordovaPlugin {
 
     // actions
     private static final String LIST = "list";
@@ -62,13 +62,13 @@ public class BluetoothSerial extends CordovaPlugin {
     private CallbackContext deviceDiscoveredCallback;
 
     private BluetoothAdapter bluetoothAdapter;
-    private BluetoothSerialService bluetoothSerialService;
+    private BluetoothSerialService2 bluetoothSerialService;
 
     // Debugging
-    private static final String TAG = "BluetoothSerial";
+    private static final String TAG = "BluetoothSerial2";
     private static final boolean D = true;
 
-    // Message types sent from the BluetoothSerialService Handler
+    // Message types sent from the BluetoothSerialService2 Handler
     public static final int MESSAGE_STATE_CHANGE = 1;
     public static final int MESSAGE_READ = 2;
     public static final int MESSAGE_WRITE = 3;
@@ -99,7 +99,7 @@ public class BluetoothSerial extends CordovaPlugin {
         }
 
         if (bluetoothSerialService == null) {
-            bluetoothSerialService = new BluetoothSerialService(mHandler);
+            bluetoothSerialService = new BluetoothSerialService2(mHandler);
         }
 
         boolean validAction = true;
@@ -188,7 +188,7 @@ public class BluetoothSerial extends CordovaPlugin {
 
         } else if (action.equals(IS_CONNECTED)) {
 
-            if (bluetoothSerialService.getState() == BluetoothSerialService.STATE_CONNECTED) {
+            if (bluetoothSerialService.getState() == BluetoothSerialService2.STATE_CONNECTED) {
                 callbackContext.success();
             } else {
                 callbackContext.error("Not connected.");
@@ -354,7 +354,7 @@ public class BluetoothSerial extends CordovaPlugin {
         }
     }
 
-    // The Handler that gets information back from the BluetoothSerialService
+    // The Handler that gets information back from the BluetoothSerialService2
     // Original code used handler for the because it was talking to the UI.
     // Consider replacing with normal callbacks
     private final Handler mHandler = new Handler() {
@@ -379,18 +379,18 @@ public class BluetoothSerial extends CordovaPlugin {
 
                     if(D) Log.i(TAG, "MESSAGE_STATE_CHANGE: " + msg.arg1);
                     switch (msg.arg1) {
-                        case BluetoothSerialService.STATE_CONNECTED:
-                            Log.i(TAG, "BluetoothSerialService.STATE_CONNECTED");
+                        case BluetoothSerialService2.STATE_CONNECTED:
+                            Log.i(TAG, "BluetoothSerialService2.STATE_CONNECTED");
                             notifyConnectionSuccess();
                             break;
-                        case BluetoothSerialService.STATE_CONNECTING:
-                            Log.i(TAG, "BluetoothSerialService.STATE_CONNECTING");
+                        case BluetoothSerialService2.STATE_CONNECTING:
+                            Log.i(TAG, "BluetoothSerialService2.STATE_CONNECTING");
                             break;
-                        case BluetoothSerialService.STATE_LISTEN:
-                            Log.i(TAG, "BluetoothSerialService.STATE_LISTEN");
+                        case BluetoothSerialService2.STATE_LISTEN:
+                            Log.i(TAG, "BluetoothSerialService2.STATE_LISTEN");
                             break;
-                        case BluetoothSerialService.STATE_NONE:
-                            Log.i(TAG, "BluetoothSerialService.STATE_NONE");
+                        case BluetoothSerialService2.STATE_NONE:
+                            Log.i(TAG, "BluetoothSerialService2.STATE_NONE");
                             break;
                     }
                     break;

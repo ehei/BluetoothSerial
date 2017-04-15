@@ -24,10 +24,10 @@ import android.util.Log;
  * This code was based on the Android SDK BluetoothChat Sample
  * $ANDROID_SDK/samples/android-17/BluetoothChat
  */
-public class BluetoothSerialService {
+public class BluetoothSerialService2 {
 
     // Debugging
-    private static final String TAG = "BluetoothSerialService";
+    private static final String TAG = "BluetoothSerialService2";
     private static final boolean D = true;
 
     // Name for the SDP record when creating server socket
@@ -57,10 +57,10 @@ public class BluetoothSerialService {
     public static final int STATE_CONNECTED = 3;  // now connected to a remote device
 
     /**
-     * Constructor. Prepares a new BluetoothSerial session.
+     * Constructor. Prepares a new BluetoothSerial2 session.
      * @param handler  A Handler to send messages back to the UI Activity
      */
-    public BluetoothSerialService(Handler handler) {
+    public BluetoothSerialService2(Handler handler) {
         mAdapter = BluetoothAdapter.getDefaultAdapter();
         mState = STATE_NONE;
         mHandler = handler;
@@ -75,7 +75,7 @@ public class BluetoothSerialService {
         mState = state;
 
         // Give the new state to the Handler so the UI Activity can update
-        mHandler.obtainMessage(BluetoothSerial.MESSAGE_STATE_CHANGE, state, -1).sendToTarget();
+        mHandler.obtainMessage(BluetoothSerial2.MESSAGE_STATE_CHANGE, state, -1).sendToTarget();
     }
 
     /**
@@ -163,9 +163,9 @@ public class BluetoothSerialService {
         mConnectedThread.start();
 
         // Send the name of the connected device back to the UI Activity
-        Message msg = mHandler.obtainMessage(BluetoothSerial.MESSAGE_DEVICE_NAME);
+        Message msg = mHandler.obtainMessage(BluetoothSerial2.MESSAGE_DEVICE_NAME);
         Bundle bundle = new Bundle();
-        bundle.putString(BluetoothSerial.DEVICE_NAME, device.getName());
+        bundle.putString(BluetoothSerial2.DEVICE_NAME, device.getName());
         msg.setData(bundle);
         mHandler.sendMessage(msg);
 
@@ -222,14 +222,14 @@ public class BluetoothSerialService {
      */
     private void connectionFailed() {
         // Send a failure message back to the Activity
-        Message msg = mHandler.obtainMessage(BluetoothSerial.MESSAGE_TOAST);
+        Message msg = mHandler.obtainMessage(BluetoothSerial2.MESSAGE_TOAST);
         Bundle bundle = new Bundle();
-        bundle.putString(BluetoothSerial.TOAST, "Unable to connect to device");
+        bundle.putString(BluetoothSerial2.TOAST, "Unable to connect to device");
         msg.setData(bundle);
         mHandler.sendMessage(msg);
 
         // Start the service over to restart listening mode
-        BluetoothSerialService.this.start();
+        BluetoothSerialService2.this.start();
     }
 
     /**
@@ -237,14 +237,14 @@ public class BluetoothSerialService {
      */
     private void connectionLost() {
         // Send a failure message back to the Activity
-        Message msg = mHandler.obtainMessage(BluetoothSerial.MESSAGE_TOAST);
+        Message msg = mHandler.obtainMessage(BluetoothSerial2.MESSAGE_TOAST);
         Bundle bundle = new Bundle();
-        bundle.putString(BluetoothSerial.TOAST, "Device connection was lost");
+        bundle.putString(BluetoothSerial2.TOAST, "Device connection was lost");
         msg.setData(bundle);
         mHandler.sendMessage(msg);
 
         // Start the service over to restart listening mode
-        BluetoothSerialService.this.start();
+        BluetoothSerialService2.this.start();
     }
 
     /**
@@ -293,7 +293,7 @@ public class BluetoothSerialService {
 
                 // If a connection was accepted
                 if (socket != null) {
-                    synchronized (BluetoothSerialService.this) {
+                    synchronized (BluetoothSerialService2.this) {
                         switch (mState) {
                             case STATE_LISTEN:
                             case STATE_CONNECTING:
@@ -376,7 +376,7 @@ public class BluetoothSerialService {
                 Log.e(TAG, e.toString());
 
                 // Some 4.1 devices have problems, try an alternative way to connect
-                // See https://github.com/don/BluetoothSerial/issues/89
+                // See https://github.com/don/BluetoothSerial2/issues/89
                 try {
                     Log.i(TAG,"Trying fallback...");
                     mmSocket = (BluetoothSocket) mmDevice.getClass().getMethod("createRfcommSocket", new Class[] {int.class}).invoke(mmDevice,1);
@@ -395,7 +395,7 @@ public class BluetoothSerialService {
             }
 
             // Reset the ConnectThread because we're done
-            synchronized (BluetoothSerialService.this) {
+            synchronized (BluetoothSerialService2.this) {
                 mConnectThread = null;
             }
 
@@ -452,21 +452,21 @@ public class BluetoothSerialService {
                     String data = new String(buffer, 0, bytes);
 
                     // Send the new data String to the UI Activity
-                    mHandler.obtainMessage(BluetoothSerial.MESSAGE_READ, data).sendToTarget();
+                    mHandler.obtainMessage(BluetoothSerial2.MESSAGE_READ, data).sendToTarget();
 
                     // Send the raw bytestream to the UI Activity.
                     // We make a copy because the full array can have extra data at the end
                     // when / if we read less than its size.
                     if (bytes > 0) {
                         byte[] rawdata = Arrays.copyOf(buffer, bytes);
-                        mHandler.obtainMessage(BluetoothSerial.MESSAGE_READ_RAW, rawdata).sendToTarget();
+                        mHandler.obtainMessage(BluetoothSerial2.MESSAGE_READ_RAW, rawdata).sendToTarget();
                     }
 
                 } catch (IOException e) {
                     Log.e(TAG, "disconnected", e);
                     connectionLost();
                     // Start the service over to restart listening mode
-                    BluetoothSerialService.this.start();
+                    BluetoothSerialService2.this.start();
                     break;
                 }
             }
@@ -481,7 +481,7 @@ public class BluetoothSerialService {
                 mmOutStream.write(buffer);
 
                 // Share the sent message back to the UI Activity
-                mHandler.obtainMessage(BluetoothSerial.MESSAGE_WRITE, -1, -1, buffer).sendToTarget();
+                mHandler.obtainMessage(BluetoothSerial2.MESSAGE_WRITE, -1, -1, buffer).sendToTarget();
 
             } catch (IOException e) {
                 Log.e(TAG, "Exception during write", e);

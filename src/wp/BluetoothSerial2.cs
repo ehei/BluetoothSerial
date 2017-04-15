@@ -14,7 +14,7 @@ using Windows.Networking;
 using System.Text;
 using System.Threading;
 
-public class BluetoothSerial : BaseCommand
+public class BluetoothSerial2 : BaseCommand
 {
     private ConnectionManager connectionManager;
     private string token; // normally a char like \n  TODO rename to delimiter
